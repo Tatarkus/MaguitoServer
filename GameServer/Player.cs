@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
+using System.Diagnostics;
 
 namespace GameServer
 {
@@ -14,6 +15,8 @@ namespace GameServer
         public Vector3 next_position;
         public Vector3 previus_position;
         public Quaternion rotation;
+        int health;
+
 
         private float moveSpeed = 2f / Constants.TICKS_PER_SEC;
         private bool[] inputs;
@@ -28,6 +31,7 @@ namespace GameServer
             rotation = Quaternion.Identity;
             map = new MaguitoMap();
             inputs = new bool[4];
+            health = 3;
         }
 
         public void Update()
@@ -98,6 +102,13 @@ namespace GameServer
         {
             inputs = _inputs;
             rotation = _rotation;
+        }
+
+        public void Cast(Vector3 direction)
+        {
+            Console.WriteLine("Casting the fireball");
+            Vector3 impact = direction-position;
+            ServerSend.FireballImpact(this,impact);
         }
     }
 }

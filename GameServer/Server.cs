@@ -119,6 +119,7 @@ namespace GameServer
             {
                 { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
                 { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
+                { (int)ClientPackets.playerFireball, ServerHandle.PlayerFireball },
             };
             Console.WriteLine("Initialized packets.");
         }

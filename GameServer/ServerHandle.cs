@@ -40,5 +40,17 @@ namespace GameServer
             }
             
         }
+
+        public static void PlayerFireball(int _fromClient, Packet _packet)
+        {
+            Vector3 _target;
+            int _caster;
+            
+            _caster = _packet.ReadInt();
+            _target = _packet.ReadVector3();
+            Console.WriteLine($"Player {_caster} sent a fireball to: {_target}");
+            Server.clients[_caster].player.Cast(_target);
+        }
+
     }
 }

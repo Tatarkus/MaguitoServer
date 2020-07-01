@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace GameServer
@@ -115,6 +116,19 @@ namespace GameServer
                 _packet.Write(_player.rotation);
 
                 SendUDPDataToAll(_player.id, _packet);
+            }
+        }
+
+        public static void FireballImpact(Player _player, Vector3 impact)
+        {
+            Console.WriteLine("Sending Impact");
+            using (Packet _packet = new Packet((int)ServerPackets.fireballImpact))
+            {
+                _packet.Write(_player.id);
+                _packet.Write(impact);
+                Console.WriteLine($"id {_player.id} impactLocation {impact}");
+                SendTCPDataToAll(_packet);
+  
             }
         }
         #endregion

@@ -38,8 +38,6 @@ namespace GameServer
         public bool isColliding(Vector2 _position, float _radius)
         {
             float distance = Vector2.Distance(_position, entityPosition);
-            Console.WriteLine($" distancia {distance}");
-            Console.WriteLine($" distancia maxima centros{r + _radius}");
             if ( distance < r + _radius)
             {
                 return true;

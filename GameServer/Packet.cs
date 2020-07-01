@@ -12,7 +12,8 @@ namespace GameServer
         spawnPlayer,
         playerPosition,
         playerRotation,
-        removePlayer
+        removePlayer,
+        fireballImpact
     }
 
     /// <summary>Sent from client to server.</summary>
