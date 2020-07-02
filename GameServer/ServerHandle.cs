@@ -22,6 +22,8 @@ namespace GameServer
 
         public static void PlayerMovement(int _fromClient, Packet _packet)
         {
+            int _packetId = _packet.ReadInt();
+            Console.WriteLine($"Packet ID: {_packetId}");
             bool[] _inputs = new bool[_packet.ReadInt()];
             for (int i = 0; i < _inputs.Length; i++)
             {
