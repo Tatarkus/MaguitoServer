@@ -104,7 +104,20 @@ namespace GameServer
                 _packet.Write(_player.id);
                 _packet.Write(_player.position);
 
-                SendUDPDataToAll(_packet);
+                SendUDPDataToAll(_player.id,_packet);
+                LocalPlayerPosition(_player);
+            }
+        }
+
+        public static void LocalPlayerPosition(Player _player)
+        {
+            using (Packet _packet = new Packet((int)ServerPackets.localPlayerPosition))
+            {
+                _packet.Write(Server.clients[_player.id].lastAck);
+                _packet.Write(_player.id);
+                _packet.Write(_player.position);
+
+                SendUDPData(_player.id,_packet);
             }
         }
 

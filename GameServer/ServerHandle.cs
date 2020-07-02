@@ -25,6 +25,8 @@ namespace GameServer
             int _packetId = _packet.ReadInt();
             Console.WriteLine($"Packet ID: {_packetId}");
             bool[] _inputs = new bool[_packet.ReadInt()];
+            Server.clients[_fromClient].lastAck = _packetId;
+
             for (int i = 0; i < _inputs.Length; i++)
             {
                 _inputs[i] = _packet.ReadBool();

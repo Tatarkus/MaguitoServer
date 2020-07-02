@@ -15,6 +15,7 @@ namespace GameServer
         public Player player;
         public TCP tcp;
         public UDP udp;
+        public int lastAck = 0;
 
         public Client(int _clientId)
         {

@@ -13,7 +13,8 @@ namespace GameServer
         playerPosition,
         playerRotation,
         removePlayer,
-        fireballImpact
+        fireballImpact,
+        localPlayerPosition
     }
 
     /// <summary>Sent from client to server.</summary>
