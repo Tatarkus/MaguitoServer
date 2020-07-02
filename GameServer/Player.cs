@@ -70,7 +70,6 @@ namespace GameServer
 
             Vector3 _moveDirection = new Vector3(_inputDirection.X, _inputDirection.Y, 0);
             next_position += _moveDirection * moveSpeed;
-            
             foreach (Entity _en in map.entities)
             {
 

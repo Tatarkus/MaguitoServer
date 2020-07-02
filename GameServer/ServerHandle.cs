@@ -31,6 +31,7 @@ namespace GameServer
             try
             {
                 //TODO: fix crash
+                if (Server.clients[_fromClient].player != null)
                 Server.clients[_fromClient].player.SetInput(_inputs, _rotation);
             }
             catch (Exception)
