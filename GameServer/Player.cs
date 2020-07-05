@@ -17,8 +17,15 @@ namespace GameServer
         public Quaternion rotation;
         int health;
 
+        public struct PositionState
+        {
+            public bool[] inputs;
+            public int packetId;
+            public Quaternion rotation;
+        }
 
-        private float moveSpeed = 2f / Constants.TICKS_PER_SEC;
+        PositionState ps;
+        private float moveSpeed = 0.1f;
         private bool[] inputs;
         bool isColliding = false;
         public MaguitoMap map;
@@ -32,35 +39,39 @@ namespace GameServer
             map = new MaguitoMap();
             inputs = new bool[4];
             health = 3;
+
+            ps.rotation = rotation;
+            ps.inputs = inputs;
+            ps.packetId = 0;
         }
 
         public void Update()
         {
             Vector2 _inputDirection = Vector2.Zero;
-            if (inputs[0])
+            if (ps.inputs[0])
             {
                 _inputDirection.Y = 1;
             }
-            if (inputs[1])
+            if (ps.inputs[1])
             {
                 _inputDirection.Y = -1;
             }
-            if (inputs[2])
+            if (ps.inputs[2])
             {
                 _inputDirection.X = 1;
             }
-            if (inputs[3])
+            if (ps.inputs[3])
             {
                 _inputDirection.X = -1;
             }
             //Check collison
 
-                Move(_inputDirection);
+                Move(ps.packetId,_inputDirection);
 
            
         }
 
-        private void Move(Vector2 _inputDirection)
+        private void Move(int _packetId,Vector2 _inputDirection)
         {
             /* THIS IS SOME 3D SHIT
              * Vector3 _forward = Vector3.Transform(new Vector3(0, 0, 1), rotation);
@@ -72,35 +83,41 @@ namespace GameServer
             next_position += _moveDirection * moveSpeed;
             foreach (Entity _en in map.entities)
             {
-
                 if (_en.isColliding(new Vector2(next_position.X, next_position.Y+0.15f), 0.17f))
                 {
                     isColliding = true;
                     break;
                 }
                 isColliding = false;
-
             }
             if (!isColliding)
             {
                 position = next_position;
                 previus_position = position;
-                ServerSend.PlayerPosition(this);
+                ServerSend.PlayerPosition(_packetId,this);
             }
             else
             {
                 position = previus_position;
                 next_position = previus_position; ;
                 //ServerSend.PlayerPosition(this);
-            }
-            
+            }          
             ServerSend.PlayerRotation(this);
         }
 
-        public void SetInput(bool[] _inputs, Quaternion _rotation)
+        public void SetInput(int _packetId, bool[] _inputs, Quaternion _rotation)
         {
-            inputs = _inputs;
+            ps = new PositionState
+            {
+                inputs = _inputs,
+                packetId = _packetId,
+                rotation = _rotation
+            };
+
+        
+            /*inputs = _inputs;
             rotation = _rotation;
+            packetId = _packetId;*/
         }
 
         public void Cast(Vector3 direction)

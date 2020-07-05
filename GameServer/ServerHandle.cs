@@ -23,10 +23,8 @@ namespace GameServer
         public static void PlayerMovement(int _fromClient, Packet _packet)
         {
             int _packetId = _packet.ReadInt();
-            Console.WriteLine($"Packet ID: {_packetId}");
             bool[] _inputs = new bool[_packet.ReadInt()];
-            Server.clients[_fromClient].lastAck = _packetId;
-
+            //Server.clients[_fromClient].lastAck = _packetId;
             for (int i = 0; i < _inputs.Length; i++)
             {
                 _inputs[i] = _packet.ReadBool();
@@ -36,7 +34,7 @@ namespace GameServer
             {
                 //TODO: fix crash
                 if (Server.clients[_fromClient].player != null)
-                Server.clients[_fromClient].player.SetInput(_inputs, _rotation);
+                Server.clients[_fromClient].player.SetInput(_packetId,_inputs, _rotation);
             }
             catch (Exception)
             {

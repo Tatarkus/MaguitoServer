@@ -97,7 +97,7 @@ namespace GameServer
             
         }
 
-        public static void PlayerPosition(Player _player)
+        public static void PlayerPosition(int _packetId,Player _player)
         {
             using (Packet _packet = new Packet((int)ServerPackets.playerPosition))
             {
@@ -105,15 +105,16 @@ namespace GameServer
                 _packet.Write(_player.position);
 
                 SendUDPDataToAll(_player.id,_packet);
-                LocalPlayerPosition(_player);
+                LocalPlayerPosition(_packetId,_player);
             }
         }
 
-        public static void LocalPlayerPosition(Player _player)
+        public static void LocalPlayerPosition(int _packetId,Player _player)
         {
             using (Packet _packet = new Packet((int)ServerPackets.localPlayerPosition))
             {
-                _packet.Write(Server.clients[_player.id].lastAck);
+                
+                _packet.Write(_packetId);
                 _packet.Write(_player.id);
                 _packet.Write(_player.position);
 
